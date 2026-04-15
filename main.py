@@ -1,4 +1,7 @@
+from typing import List
+
 from dotenv import load_dotenv
+from pydantic import BaseModel, Field
 
 load_dotenv()
 
@@ -28,13 +31,28 @@ def search(query: str) -> str:
     return tavily.search(query=query)
 
 
+class Source(BaseModel):
+    """Schema for the source used by the agent"""
+
+    url: str = Field(description="Source URL")
+
+
+class AgentResponse(BaseModel):
+    """Schema for the agent response with URL"""
+
+    answer: str = Field(description="The returend result from the search")
+    answer_link: List[Source] = Field(
+        default_factory=list, description="The url of the returned answer"
+    )
+
+
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
     google_api_key=os.environ.get("GOOGLE_API_KEY"),
     temperature=0,
 )
 tools = [search]
-agent = create_agent(model=llm, tools=tools)
+agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
 
 
 def main():
@@ -43,7 +61,7 @@ def main():
         {
             "messages": [
                 HumanMessage(
-                    content="search for 3 jobs on linkedin in the chennai area for people with 10+ years of experience"
+                    content="search for 3 jobs on linkedin in the chennai area for employees with 10+ years of experience in the AI/ML domain"
                 )
             ]
         }
