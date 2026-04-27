@@ -40,7 +40,7 @@ class Source(BaseModel):
 class AgentResponse(BaseModel):
     """Schema for the agent response with URL"""
 
-    answer: str = Field(description="The returend result from the search")
+    answer: str = Field(description="The returned result from the search")
     answer_link: List[Source] = Field(
         default_factory=list, description="The url of the returned answer"
     )
