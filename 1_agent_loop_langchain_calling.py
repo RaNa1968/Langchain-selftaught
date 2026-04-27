@@ -94,7 +94,7 @@ def run_agent(question:str):
 
     return None
 
-if __name__ =="__main__" :
+if __name__ == "__main__" :
     print("Hello to Langchain Agent (.bindtools)!")
     print()
     result = run_agent("What is the price of the laptop after applying a gold discount?")
