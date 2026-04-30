@@ -33,5 +33,5 @@ if __name__ == "__main__":
 
     PineconeVectorStore.from_documents(text, embeddings, index_name = os.environ['INDEX_NAME'])
 
-    print("Finished")
+    print("Ingestion Finished...")
 
